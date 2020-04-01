@@ -1,0 +1,58 @@
+﻿@{
+    ViewData["Title"] = "Thế giới";
+}
+<div id="results">
+    <div class="container-fluid">
+        @*table content*@
+        <div id="TotalTable">
+            <table class="table table-striped" style="text-align:center">
+                <thead class="bg-secondary" style="color:white">
+                    <tr>
+                        <th scope="col">Quốc gia</th>
+                        <th scope="col">Nhiễm bệnh (Hôm nay)</th>
+                        <th scope="col">Tử vong (Hôm nay)</th>
+                        <th scope="col">Bình phục</th>
+                        <th scope="col">Tỉ lệ nhiễm/triệu dân</th>
+                        <th scope="col">Cập nhật lần cuối</th>
+                        <th>Timeline</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr v-for="item in coronaList">
+                        <td style="width:20px">{{item.name}}</td>
+                        <td style="color:darkorange; width:15px">{{item.latest_data.confirmed}}(+{{item.today.confirmed}})</td>
+                        <td style="color:red; width:15px">{{item.latest_data.deaths}}(+{{item.today.deaths}})</td>
+                        <td style="color:blue; width:15px">{{item.latest_data.recovered}}</td>
+                        <td style="width: 15px">{{item.latest_data.calculated.cases_per_million_population}}</td>
+                        <td style="width:15px">{{item.updated_at}}</td>
+                        <td style="width:5px">
+                            <a style="color:white" v-bind:href="'Home/Timeline?code=' + item.code"><button type="submit" class="btn btn-primary">...</button></a>
+                        </td>
+                    </tr>
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+
+@section Scripts{
+    <script>
+        var TotalData = new Vue({
+            el: '#results',
+            data: {
+                coronaList: []
+            },
+            mounted() {
+                axios.
+                    get("https://corona-api.com/countries").
+                    then(response => {
+                        a = response.data.data;
+                        this.coronaList = a;
+                    }).
+                    catch(error => console.log(error.response.data.message))
+            }
+        })
+    </script>
+}

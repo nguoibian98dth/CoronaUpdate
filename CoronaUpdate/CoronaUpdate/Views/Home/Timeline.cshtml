@@ -1,0 +1,154 @@
+﻿@{
+    ViewData["Title"] = "Chi tiết Quốc gia";
+}
+<div id="results">
+    <div class="tab">
+        <button class="tablinks" onclick="openTab(event, 'timeline')" id="defaultOpen">Timeline</button>
+        <button class="tablinks" onclick="openTab(event, 'detail')">Hôm nay</button>
+    </div>
+
+    <div id="detail" class="tabcontent">
+        <div class="container">
+            @*content body*@
+            <div class="card card-white" style="margin-top: 11px">
+                <div class="card-header">
+                    <h5 class="card-title">Hôm nay</h5>
+                </div>
+                <form role="form" class="bg-white form-control">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label>Ca nhiễm mới: {{detailInfomation.today.confirmed}}</label>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label>Số người chết mới: {{detailInfomation.today.deaths}}</label>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+            <div class="card card-white" style="margin-top: 11px">
+                <div class="card-header">
+                    <h5 class="card-title">Tình hình dịch bệnh</h5>
+                </div>
+                <form role="form" class="bg-white form-control">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label>Tổng số người nhiễm bệnh: {{detailInfomation.latest_data.confirmed}}</label>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label>Tổng số người chết: {{detailInfomation.latest_data.deaths}}</label>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label>Tổng số người bình phục: {{detailInfomation.latest_data.recovered}}</label>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+            <div class="card card-white" style="margin-top: 11px">
+                <div class="card-header">
+                    <h5 class="card-title">Thống kê</h5>
+                </div>
+                <form role="form" class="bg-white form-control">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label>Tỉ lệ hồi phục: {{latest_data.recovery_rate}} %</label>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label>Tỉ lệ người chết: {{latest_data.death_rate}} %</label>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label>Tỉ lệ mắc bệnh trên triệu người: {{latest_data.cases_per_million_population}}</label>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <label>Cập nhật lần cuối lúc: {{detailInfomation.updated_at}}</label>
+            <br />
+        </div>
+    </div>
+
+    <div id="timeline" class="tabcontent">
+
+        @*content body*@
+        <div class="container">
+            <br />
+            <h3>{{coronaTimelineDetail.name}}</h3>
+            <br />
+            <table class="table table-striped" style="text-align:center">
+                <thead class="bg-secondary" style="color:white">
+                    <tr>
+                        <th scope="col">Ngày cập nhật</th>
+                        <th scope="col">Số người nhiễm bệnh</th>
+                        <th scope="col">Số người chết</th>
+                        <th scope="col">Đang điều trị</th>
+                        <th scope="col">Bình phục</th>
+                        <th scope="col">Ca nhiễm mới</th>
+                        <th scope="col">Ca bình phục mới</th>
+                        <th scope="col">Cập nhật lần cuối</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr v-for="item in coronaTimelineDetail.timeline">
+                        <td style="width:20px">{{item.date}}</td>
+                        <td style="color:darkorange; width:12px">{{item.confirmed}}</td>
+                        <td style="color:red; width:12px">{{item.deaths}}</td>
+                        <td style="color:blue; width:12px">{{item.active}}</td>
+                        <td style="color:green;width:12px">{{item.recovered}}</td>
+                        <td style="width:10px">{{item.new_confirmed}}</td>
+                        <td style="width:10px">{{item.new_recovered}}</td>
+                        <td style="width:12px">{{item.updated_at}}</td>
+                    </tr>
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</div>
+
+@section Scripts{
+    <script>
+        document.getElementById("defaultOpen").click();
+        let codeCountry = '@Context.Request.Query["code"]';
+        var TotalData = new Vue({
+            el: '#results',
+            data: {
+                coronaTimelineDetail: [],
+                detailInfomation: [],
+                latest_data:[]
+            },
+            mounted() {
+                axios.
+                    get("https://corona-api.com/countries/"+codeCountry).
+                    then(response => {
+                        a = response.data.data;
+                        this.coronaTimelineDetail = a;
+                        this.detailInfomation = a;
+                        this.latest_data = a.latest_data.calculated;
+                        console.log(a.timeline)
+                    }).
+                    catch(error => console.log(error.response.data.message))
+            }
+        })
+
+        function openTab(evt, tabName) {
+            var i, tabcontent, tablinks;
+            tabcontent = document.getElementsByClassName("tabcontent");
+            for (i = 0; i < tabcontent.length; i++) {
+            tabcontent[i].style.display = "none";
+            }
+            tablinks = document.getElementsByClassName("tablinks");
+            for (i = 0; i < tablinks.length; i++) {
+            tablinks[i].className = tablinks[i].className.replace(" active", "");
+            }
+            document.getElementById(tabName).style.display = "block";
+            evt.currentTarget.className += " active";
+        }
+    </script>
+}
