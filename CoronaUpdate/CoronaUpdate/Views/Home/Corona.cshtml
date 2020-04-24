@@ -3,6 +3,20 @@
 }
 <div id="results">
     <div class="container-fluid">
+        <div class="bg-white">
+            <div class="card">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-sm-4">
+                            <label>Quốc gia</label>
+                            <input style="opacity: 0.6; color:black" type="text" id="name-search-input" class="form-control" placeholder="Ví dụ: Vietnam" onfocusout="SearchCountry(value)" onkeypress="IsEnter(event,value)">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <br />
+        </div>
+
         @*table content*@
         <div id="TotalTable">
             <table class="table table-striped" style="text-align:center">
@@ -39,20 +53,50 @@
 
 @section Scripts{
     <script>
+        let countriesArr;
         var TotalData = new Vue({
             el: '#results',
             data: {
                 coronaList: []
             },
             mounted() {
-                axios.
-                    get("https://corona-api.com/countries").
-                    then(response => {
-                        a = response.data.data;
-                        this.coronaList = a;
-                    }).
-                    catch(error => console.log(error.response.data.message))
+                getData()
             }
         })
+
+        function getData() {
+            axios.
+                get("https://corona-api.com/countries").
+                then(response => {
+                    a = response.data.data;
+                    TotalData.coronaList = a;
+                    countriesArr = a;
+                }).
+                catch(error => console.log(error.response.data.message))
+        }
+
+        function SearchCountry(keyword) {
+            var a = [];
+            if (keyword != '') {
+                var result = countriesArr.find(e => e.name == keyword);
+                if (result != undefined) {
+                    a[0] = result
+                    TotalData.coronaList = a;
+                }
+                //else {
+                //    alert('Không tìm thấy kết quả !')
+                //    $("#name-search-input").next().focus();
+                //}
+            }
+            else {
+                getData();
+            }
+        }
+
+        function IsEnter(e ,kw) {
+            if (e.keyCode == 13) {
+                SearchCountry(kw);
+            }
+        }
     </script>
 }

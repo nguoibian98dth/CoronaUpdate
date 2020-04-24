@@ -131,9 +131,15 @@
                         this.coronaTimelineDetail = a;
                         this.detailInfomation = a;
                         this.latest_data = a.latest_data.calculated;
-                        console.log(a.timeline)
                     }).
-                    catch(error => console.log(error.response.data.message))
+                    catch(error =>
+                        Swal.fire({
+                            title: 'Error!',
+                            text: error.response.data.message,
+                            icon: 'error',
+                            confirmButtonText: 'Ok'
+                        })
+                    )
             }
         })
 

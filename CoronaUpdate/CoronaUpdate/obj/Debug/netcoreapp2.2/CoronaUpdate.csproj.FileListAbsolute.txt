@@ -51,8 +51,6 @@ E:\GitHub\CoronaUpdate\CoronaUpdate\CoronaUpdate\obj\Debug\netcoreapp2.2\CoronaU
 E:\GitHub\CoronaUpdate\CoronaUpdate\CoronaUpdate\obj\Debug\netcoreapp2.2\CoronaUpdate.TagHelpers.output.cache
 E:\GitHub\CoronaUpdate\CoronaUpdate\CoronaUpdate\obj\Debug\netcoreapp2.2\CoronaUpdate.RazorCoreGenerate.cache
 E:\GitHub\CoronaUpdate\CoronaUpdate\CoronaUpdate\obj\Debug\netcoreapp2.2\Razor\Views\Home\Corona.cshtml.g.cs
-E:\GitHub\CoronaUpdate\CoronaUpdate\CoronaUpdate\obj\Debug\netcoreapp2.2\Razor\Views\Home\Index.cshtml.g.cs
-E:\GitHub\CoronaUpdate\CoronaUpdate\CoronaUpdate\obj\Debug\netcoreapp2.2\Razor\Views\Home\Privacy.cshtml.g.cs
 E:\GitHub\CoronaUpdate\CoronaUpdate\CoronaUpdate\obj\Debug\netcoreapp2.2\Razor\Views\Home\Timeline.cshtml.g.cs
 E:\GitHub\CoronaUpdate\CoronaUpdate\CoronaUpdate\obj\Debug\netcoreapp2.2\Razor\Views\Shared\Error.cshtml.g.cs
 E:\GitHub\CoronaUpdate\CoronaUpdate\CoronaUpdate\obj\Debug\netcoreapp2.2\Razor\Views\Shared\_CookieConsentPartial.cshtml.g.cs
